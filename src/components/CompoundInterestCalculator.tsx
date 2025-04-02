@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -26,19 +27,25 @@ const CompoundInterestCalculator = () => {
     }
 
     let calculated = 0;
-    const dailyValues = [initialAmount];
+    // Start with day 1 already in the array
+    const dailyValues = [];
     
     for (let i = 1; i <= days; i++) {
       if (growthType === "exponential") {
-        calculated = dailyValues[i-1] * 2;
+        // For day 1, use initialAmount, then double previous day's amount
+        if (i === 1) {
+          calculated = initialAmount;
+        } else {
+          calculated = dailyValues[i-2] * 2;
+        }
       } else {
-        calculated = initialAmount * (i + 1);
+        calculated = initialAmount * i;
       }
       dailyValues.push(calculated);
     }
     
     if (growthType === "exponential") {
-      calculated = dailyValues[days];
+      calculated = dailyValues[days-1]; // Last day's amount
     } else {
       calculated = dailyValues.reduce((sum, value) => sum + value, 0);
     }
@@ -189,7 +196,7 @@ const CompoundInterestCalculator = () => {
               <div className="mt-2 space-y-1 max-h-40 overflow-y-auto">
                 {dailyAmounts.map((amount, index) => (
                   <div key={index} className="flex justify-between">
-                    <span>Ngày {index}:</span>
+                    <span>Ngày {index + 1}:</span>
                     <span className="font-medium">{formatNumber(amount)} đ</span>
                   </div>
                 ))}
