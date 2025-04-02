@@ -1,6 +1,5 @@
 
 import React from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Calculator, Clock, BookOpen, Lightbulb } from "lucide-react";
 import RiceCalculator from "./RiceCalculator";
@@ -15,40 +14,40 @@ const EducationalTool = () => {
         <p className="text-xl text-gray-600">Khám phá những khái niệm toán học và vật lý tuyệt vời!</p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Math Tools Card */}
         <Card className="shadow-lg">
           <CardHeader>
             <CardTitle className="text-2xl flex items-center gap-2">
-              <Calculator className="h-5 w-5" /> Công Cụ Toán Học
+              <Calculator className="h-5 w-5" /> Hạt Thóc Trên Bàn Cờ
             </CardTitle>
             <CardDescription>
-              Khám phá sức mạnh của hàm số mũ và lãi kép
+              Khám phá sức mạnh của hàm số mũ
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Tabs defaultValue="rice">
-              <TabsList className="grid grid-cols-2 mb-4">
-                <TabsTrigger value="rice" className="flex items-center gap-2">
-                  <Lightbulb className="h-4 w-4" /> Hạt Thóc Trên Bàn Cờ
-                </TabsTrigger>
-                <TabsTrigger value="interest" className="flex items-center gap-2">
-                  <Calculator className="h-4 w-4" /> Lãi Suất Kép
-                </TabsTrigger>
-              </TabsList>
-
-              <TabsContent value="rice">
-                <RiceCalculator />
-              </TabsContent>
-
-              <TabsContent value="interest">
-                <CompoundInterestCalculator />
-              </TabsContent>
-            </Tabs>
+            <RiceCalculator />
           </CardContent>
         </Card>
 
-        {/* Light Distance Card */}
+        {/* Compound Interest Card */}
+        <Card className="shadow-lg">
+          <CardHeader>
+            <CardTitle className="text-2xl flex items-center gap-2">
+              <Lightbulb className="h-5 w-5" /> Lãi Suất Kép
+            </CardTitle>
+            <CardDescription>
+              Hiểu sức mạnh của tăng trưởng theo cấp số nhân
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <CompoundInterestCalculator />
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Light Distance Card */}
+      <div className="mt-6">
         <Card className="shadow-lg">
           <CardHeader>
             <CardTitle className="text-2xl flex items-center gap-2">
