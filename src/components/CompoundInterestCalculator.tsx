@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -8,7 +9,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const CompoundInterestCalculator = () => {
-  const [initialAmount, setInitialAmount] = useState<number>(1000);
+  const [initialAmount, setInitialAmount] = useState<number>(1);
   const [days, setDays] = useState<number>(10);
   const [growthType, setGrowthType] = useState<"exponential" | "arithmetic">("exponential");
   const [useInterestRate, setUseInterestRate] = useState<boolean>(false);
@@ -18,8 +19,8 @@ const CompoundInterestCalculator = () => {
   const [error, setError] = useState<string>("");
 
   useEffect(() => {
-    if (initialAmount < 500) {
-      setError("Số tiền ban đầu phải từ 500 đồng trở lên");
+    if (initialAmount < 1) {
+      setError("Số tiền ban đầu phải từ 1 đồng trở lên");
       return;
     } else {
       setError("");
