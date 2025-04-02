@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -70,7 +69,10 @@ const CompoundInterestCalculator = () => {
     setDays(isNaN(value) ? 0 : Math.min(value, 366));
   };
 
-  const formatNumber = (num: number): string => {
+  const formatNumber = (num: number | undefined): string => {
+    if (num === undefined || num === null || isNaN(num)) {
+      return "0";
+    }
     return num.toLocaleString('vi-VN');
   };
 
@@ -78,7 +80,11 @@ const CompoundInterestCalculator = () => {
     setInterestRate(value[0]);
   };
 
-  const formatReadableNumber = (num: number): string => {
+  const formatReadableNumber = (num: number | undefined): string => {
+    if (num === undefined || num === null || isNaN(num)) {
+      return "0";
+    }
+    
     if (num < 1000) return `${num.toFixed(2)}`;
     if (num < 1000000) return `${(num / 1000).toFixed(2)} nghìn`;
     if (num < 1000000000) return `${(num / 1000000).toFixed(2)} triệu`;
@@ -187,7 +193,7 @@ const CompoundInterestCalculator = () => {
             <p className="font-bold text-edu-red">{formatNumber(finalAmount - initialAmount)}</p>
             <p className="text-sm text-gray-600">({formatReadableNumber(finalAmount - initialAmount)})</p>
             <p className="font-medium text-gray-700 mt-2">Gấp số tiền ban đầu:</p>
-            <p className="font-bold text-edu-purple">{(finalAmount / initialAmount).toFixed(2)} lần</p>
+            <p className="font-bold text-edu-purple">{initialAmount > 0 ? (finalAmount / initialAmount).toFixed(2) : "0"} lần</p>
           </div>
           
           {days <= 10 && (
