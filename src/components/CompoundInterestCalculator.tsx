@@ -33,9 +33,9 @@ const CompoundInterestCalculator = () => {
     for (let i = 1; i <= days; i++) {
       if (growthType === "exponential") {
         // Exponential growth: Each day doubles the previous day's amount
-        calculated = initialAmount * Math.pow(2, i);
+        calculated = dailyValues[i-1] * 2;
       } else {
-        // Arithmetic growth: Each day adds the initial amount to form a sequence
+        // Arithmetic growth: Each day adds the initial amount
         calculated = initialAmount * (i + 1);
       }
       dailyValues.push(calculated);
