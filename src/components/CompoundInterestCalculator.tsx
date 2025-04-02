@@ -1,22 +1,35 @@
 
 import React, { useState, useEffect } from "react";
-import { calculateCompoundInterest } from "@/utils/calculators";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Calculator } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
+import { Switch } from "@/components/ui/switch";
 
 const CompoundInterestCalculator = () => {
   const [initialAmount, setInitialAmount] = useState<number>(1);
   const [days, setDays] = useState<number>(30);
+  const [useInterestRate, setUseInterestRate] = useState<boolean>(false);
   const [interestRate, setInterestRate] = useState<number>(5);
   const [finalAmount, setFinalAmount] = useState<number>(0);
 
   useEffect(() => {
-    const rate = interestRate / 100; // Convert percentage to decimal
-    const calculated = calculateCompoundInterest(initialAmount, days, rate);
+    let calculated = initialAmount;
+    
+    // Each day doubles the previous day's amount
+    for (let i = 1; i <= days; i++) {
+      calculated *= 2;
+    }
+    
+    // If interest rate is enabled, add it on top (monthly rate)
+    if (useInterestRate) {
+      const monthlyRate = interestRate / 100;
+      const months = days / 30; // Approximate months
+      calculated = calculated * Math.pow(1 + monthlyRate, months);
+    }
+    
     setFinalAmount(calculated);
-  }, [initialAmount, days, interestRate]);
+  }, [initialAmount, days, interestRate, useInterestRate]);
 
   const handleInitialAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseFloat(e.target.value);
@@ -52,7 +65,7 @@ const CompoundInterestCalculator = () => {
     <div className="w-full p-4 rounded-lg bg-white">
       <div className="flex items-center gap-2 mb-4">
         <Calculator size={24} className="text-edu-green" />
-        <h3 className="text-xl font-bold text-edu-green">Tính Lãi Suất Kép</h3>
+        <h3 className="text-xl font-bold text-edu-green">Gấp Đôi Mỗi Ngày</h3>
       </div>
       
       <div className="space-y-4">
@@ -69,34 +82,45 @@ const CompoundInterestCalculator = () => {
         </div>
         
         <div>
-          <Label htmlFor="days">Số ngày:</Label>
+          <Label htmlFor="days">Số ngày gấp đôi:</Label>
           <Input
             id="days"
             type="number"
             min="1"
-            max="365"
+            max="100"
             value={days}
             onChange={handleDaysChange}
             className="mt-1 bg-gray-50 border-edu-green"
           />
         </div>
         
-        <div>
-          <div className="flex justify-between">
-            <Label htmlFor="interestRate">Lãi suất hàng ngày: {interestRate}%</Label>
-          </div>
-          <Slider
-            defaultValue={[5]}
-            max={20}
-            min={1}
-            step={1}
-            onValueChange={handleSliderChange}
-            className="mt-2"
+        <div className="flex items-center space-x-2 mb-2">
+          <Switch
+            id="use-interest"
+            checked={useInterestRate}
+            onCheckedChange={setUseInterestRate}
           />
+          <Label htmlFor="use-interest">Thêm lãi suất hàng tháng</Label>
         </div>
         
+        {useInterestRate && (
+          <div>
+            <div className="flex justify-between">
+              <Label htmlFor="interestRate">Lãi suất hàng tháng: {interestRate}%</Label>
+            </div>
+            <Slider
+              defaultValue={[5]}
+              max={20}
+              min={1}
+              step={1}
+              onValueChange={handleSliderChange}
+              className="mt-2"
+            />
+          </div>
+        )}
+        
         <div className="p-4 bg-gray-50 rounded-lg">
-          <p className="text-sm font-medium text-gray-500 mb-2">Số tiền sau {days} ngày:</p>
+          <p className="text-sm font-medium text-gray-500 mb-2">Số tiền sau {days} ngày gấp đôi:</p>
           <p className="text-2xl font-bold text-edu-green">{formatNumber(finalAmount)}</p>
           <p className="text-sm text-gray-600">({formatReadableNumber(finalAmount)})</p>
           
@@ -110,7 +134,8 @@ const CompoundInterestCalculator = () => {
         </div>
         
         <div className="text-sm text-gray-500 mt-4">
-          <p>Áp dụng công thức lãi kép: Số tiền cuối = Số tiền đầu × (1 + Lãi suất)^Số ngày</p>
+          <p>Mỗi ngày số tiền được gấp đôi so với ngày trước: Số tiền cuối = Số tiền đầu × 2^Số ngày</p>
+          {useInterestRate && <p className="mt-1">Kèm theo lãi suất hàng tháng: {interestRate}%</p>}
         </div>
       </div>
     </div>
