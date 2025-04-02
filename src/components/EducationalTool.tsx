@@ -1,10 +1,11 @@
 
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Calculator, Clock, BookOpen, Lightbulb } from "lucide-react";
+import { Calculator, Clock, BookOpen, Lightbulb, Fold } from "lucide-react";
 import RiceCalculator from "./RiceCalculator";
 import CompoundInterestCalculator from "./CompoundInterestCalculator";
 import LightDistanceCalculator from "./LightDistanceCalculator";
+import PaperFoldingCalculator from "./PaperFoldingCalculator";
 
 const EducationalTool = () => {
   return (
@@ -46,8 +47,8 @@ const EducationalTool = () => {
         </Card>
       </div>
 
-      {/* Light Distance Card */}
-      <div className="mt-6">
+      {/* Light Distance and Paper Folding Cards in a grid */}
+      <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card className="shadow-lg">
           <CardHeader>
             <CardTitle className="text-2xl flex items-center gap-2">
@@ -59,6 +60,20 @@ const EducationalTool = () => {
           </CardHeader>
           <CardContent>
             <LightDistanceCalculator />
+          </CardContent>
+        </Card>
+
+        <Card className="shadow-lg">
+          <CardHeader>
+            <CardTitle className="text-2xl flex items-center gap-2">
+              <Fold className="h-5 w-5" /> Gấp Giấy
+            </CardTitle>
+            <CardDescription>
+              Khám phá sự tăng trưởng theo cấp số nhân khi gấp giấy
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <PaperFoldingCalculator />
           </CardContent>
         </Card>
       </div>

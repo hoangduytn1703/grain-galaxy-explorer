@@ -1,4 +1,3 @@
-
 // Rice Calculator functions
 export const calculateRiceGrains = (squares: number): number => {
   if (squares <= 0 || squares > 64) return 0;
@@ -22,8 +21,8 @@ export const grainsToTons = (grains: number): number => {
 };
 
 export const vietnamRicePercentage = (tons: number): number => {
-  // Vietnam produces approximately 27.1 million tons of rice per year
-  const vietnamAnnualProduction = 27_100_000;
+  // Vietnam produces approximately 42.4 million tons of rice per year (updated 2024)
+  const vietnamAnnualProduction = 42_400_000;
   return (tons / vietnamAnnualProduction) * 100;
 };
 
@@ -97,4 +96,43 @@ export const convertTimeToSeconds = (
     default:
       return timeValue;
   }
+};
+
+// Paper Folding Calculator functions
+export const calculateFoldedThickness = (initialThickness: number, folds: number): number => {
+  // Each fold doubles the thickness
+  // thickness = initial_thickness * 2^folds
+  return initialThickness * Math.pow(2, folds);
+};
+
+export const thicknessToKilometers = (thicknessInMm: number): number => {
+  return thicknessInMm / 1000000; // Convert from mm to km
+};
+
+export const thicknessToLightTime = (thicknessInKm: number): number => {
+  // Speed of light in km/s = 299,792.458 km/s
+  const speedOfLightKmPerSecond = 299792.458;
+  return thicknessInKm / speedOfLightKmPerSecond; // Time in seconds
+};
+
+export const thicknessToLightDays = (thicknessInSeconds: number): number => {
+  return thicknessInSeconds / (24 * 60 * 60); // Convert seconds to days
+};
+
+export const thicknessToEverestHeight = (thicknessInMm: number): number => {
+  // Mount Everest height = 8,848 meters = 8,848,000 mm
+  const everestHeightMm = 8848000;
+  return thicknessInMm / everestHeightMm;
+};
+
+export const thicknessToEarthToMoonDistance = (thicknessInMm: number): number => {
+  // Average Earth to Moon distance = 384,400 km = 384,400,000,000 mm
+  const earthToMoonDistanceMm = 384400000000;
+  return thicknessInMm / earthToMoonDistanceMm;
+};
+
+export const thicknessToSolarSystemDistance = (thicknessInMm: number): number => {
+  // Approximate diameter of our solar system = 9 billion km = 9 * 10^15 mm
+  const solarSystemDiameterMm = 9 * Math.pow(10, 15);
+  return thicknessInMm / solarSystemDiameterMm;
 };
