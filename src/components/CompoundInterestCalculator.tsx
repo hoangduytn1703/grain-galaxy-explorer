@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -31,11 +32,11 @@ const CompoundInterestCalculator = () => {
     // Calculate daily progression
     for (let i = 1; i <= days; i++) {
       if (growthType === "exponential") {
-        // Each day doubles the previous day's amount (x2)
-        calculated *= 2;
+        // Exponential growth: Each day doubles the previous day's amount
+        calculated = initialAmount * Math.pow(2, i);
       } else {
-        // Each day adds the initial amount to the previous day's amount (+initial)
-        calculated += initialAmount;
+        // Arithmetic growth: Each day adds the initial amount to form a sequence
+        calculated = initialAmount * (i + 1);
       }
       dailyValues.push(calculated);
     }
@@ -200,7 +201,7 @@ const CompoundInterestCalculator = () => {
         
         <div className="text-sm text-gray-500 mt-4">
           {growthType === "exponential" ? (
-            <p>Mỗi ngày số tiền được gấp đôi so với ngày trước: Số tiền cuối = Số tiền đầu × 2^Số ngày</p>
+            <p>Mỗi ngày số tiền được gấp đôi so với ngày đầu: Số tiền cuối = Số tiền đầu × 2^Số ngày</p>
           ) : (
             <p>Mỗi ngày cộng thêm số tiền ban đầu: Số tiền cuối = Số tiền đầu × (Số ngày + 1)</p>
           )}
