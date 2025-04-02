@@ -5,20 +5,40 @@ import { Label } from "@/components/ui/label";
 import { Calculator } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const CompoundInterestCalculator = () => {
-  const [initialAmount, setInitialAmount] = useState<number>(1);
-  const [days, setDays] = useState<number>(30);
+  const [initialAmount, setInitialAmount] = useState<number>(1000);
+  const [days, setDays] = useState<number>(10);
+  const [growthType, setGrowthType] = useState<"exponential" | "arithmetic">("exponential");
   const [useInterestRate, setUseInterestRate] = useState<boolean>(false);
   const [interestRate, setInterestRate] = useState<number>(5);
   const [finalAmount, setFinalAmount] = useState<number>(0);
+  const [dailyAmounts, setDailyAmounts] = useState<number[]>([]);
+  const [error, setError] = useState<string>("");
 
   useEffect(() => {
+    if (initialAmount < 500) {
+      setError("Số tiền ban đầu phải từ 500 đồng trở lên");
+      return;
+    } else {
+      setError("");
+    }
+
     let calculated = initialAmount;
+    const dailyValues = [initialAmount];
     
-    // Each day doubles the previous day's amount
+    // Calculate daily progression
     for (let i = 1; i <= days; i++) {
-      calculated *= 2;
+      if (growthType === "exponential") {
+        // Each day doubles the previous day's amount (x2)
+        calculated *= 2;
+      } else {
+        // Each day adds the initial amount to the previous day's amount (+initial)
+        calculated += initialAmount;
+      }
+      dailyValues.push(calculated);
     }
     
     // If interest rate is enabled, add it on top (monthly rate)
@@ -29,7 +49,8 @@ const CompoundInterestCalculator = () => {
     }
     
     setFinalAmount(calculated);
-  }, [initialAmount, days, interestRate, useInterestRate]);
+    setDailyAmounts(dailyValues);
+  }, [initialAmount, days, interestRate, useInterestRate, growthType]);
 
   const handleInitialAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseFloat(e.target.value);
@@ -38,7 +59,7 @@ const CompoundInterestCalculator = () => {
 
   const handleDaysChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value);
-    setDays(isNaN(value) ? 0 : value);
+    setDays(isNaN(value) ? 0 : Math.min(value, 30)); // Limit to 30 days to prevent overflow
   };
 
   const handleSliderChange = (value: number[]) => {
@@ -65,7 +86,7 @@ const CompoundInterestCalculator = () => {
     <div className="w-full p-4 rounded-lg bg-white">
       <div className="flex items-center gap-2 mb-4">
         <Calculator size={24} className="text-edu-green" />
-        <h3 className="text-xl font-bold text-edu-green">Gấp Đôi Mỗi Ngày</h3>
+        <h3 className="text-xl font-bold text-edu-green">Tiền Tăng Theo Ngày</h3>
       </div>
       
       <div className="space-y-4">
@@ -74,24 +95,55 @@ const CompoundInterestCalculator = () => {
           <Input
             id="initialAmount"
             type="number"
-            min="1"
+            min="500"
             value={initialAmount}
             onChange={handleInitialAmountChange}
             className="mt-1 bg-gray-50 border-edu-green"
           />
+          {error && (
+            <Alert variant="destructive" className="mt-2">
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          )}
         </div>
         
         <div>
-          <Label htmlFor="days">Số ngày gấp đôi:</Label>
+          <Label htmlFor="days">Số ngày tăng tiền:</Label>
           <Input
             id="days"
             type="number"
             min="1"
-            max="100"
+            max="30"
             value={days}
             onChange={handleDaysChange}
             className="mt-1 bg-gray-50 border-edu-green"
           />
+        </div>
+        
+        <div className="grid grid-cols-2 gap-2">
+          <div className="flex items-center space-x-2 border rounded-md p-2">
+            <input
+              type="radio"
+              id="exponential"
+              name="growthType"
+              checked={growthType === "exponential"}
+              onChange={() => setGrowthType("exponential")}
+              className="text-edu-green"
+            />
+            <Label htmlFor="exponential">Cấp số nhân (×2)</Label>
+          </div>
+          
+          <div className="flex items-center space-x-2 border rounded-md p-2">
+            <input
+              type="radio"
+              id="arithmetic"
+              name="growthType"
+              checked={growthType === "arithmetic"}
+              onChange={() => setGrowthType("arithmetic")}
+              className="text-edu-green"
+            />
+            <Label htmlFor="arithmetic">Cấp số cộng (+{formatNumber(initialAmount)})</Label>
+          </div>
         </div>
         
         <div className="flex items-center space-x-2 mb-2">
@@ -120,7 +172,7 @@ const CompoundInterestCalculator = () => {
         )}
         
         <div className="p-4 bg-gray-50 rounded-lg">
-          <p className="text-sm font-medium text-gray-500 mb-2">Số tiền sau {days} ngày gấp đôi:</p>
+          <p className="text-sm font-medium text-gray-500 mb-2">Số tiền sau {days} ngày tăng tiền:</p>
           <p className="text-2xl font-bold text-edu-green">{formatNumber(finalAmount)}</p>
           <p className="text-sm text-gray-600">({formatReadableNumber(finalAmount)})</p>
           
@@ -131,10 +183,28 @@ const CompoundInterestCalculator = () => {
             <p className="font-medium text-gray-700 mt-2">Gấp số tiền ban đầu:</p>
             <p className="font-bold text-edu-purple">{(finalAmount / initialAmount).toFixed(2)} lần</p>
           </div>
+          
+          {days <= 10 && (
+            <div className="mt-4 text-sm">
+              <p className="font-medium text-gray-700">Chi tiết từng ngày:</p>
+              <div className="mt-2 space-y-1 max-h-40 overflow-y-auto">
+                {dailyAmounts.map((amount, index) => (
+                  <div key={index} className="flex justify-between">
+                    <span>Ngày {index}:</span>
+                    <span className="font-medium">{formatNumber(amount)} đ</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
         
         <div className="text-sm text-gray-500 mt-4">
-          <p>Mỗi ngày số tiền được gấp đôi so với ngày trước: Số tiền cuối = Số tiền đầu × 2^Số ngày</p>
+          {growthType === "exponential" ? (
+            <p>Mỗi ngày số tiền được gấp đôi so với ngày trước: Số tiền cuối = Số tiền đầu × 2^Số ngày</p>
+          ) : (
+            <p>Mỗi ngày cộng thêm số tiền ban đầu: Số tiền cuối = Số tiền đầu × (Số ngày + 1)</p>
+          )}
           {useInterestRate && <p className="mt-1">Kèm theo lãi suất hàng tháng: {interestRate}%</p>}
         </div>
       </div>
