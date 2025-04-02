@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -26,25 +25,27 @@ const CompoundInterestCalculator = () => {
       setError("");
     }
 
-    let calculated = initialAmount;
+    let calculated = 0;
     const dailyValues = [initialAmount];
     
-    // Calculate daily progression
     for (let i = 1; i <= days; i++) {
       if (growthType === "exponential") {
-        // Exponential growth: Each day doubles the previous day's amount
         calculated = dailyValues[i-1] * 2;
       } else {
-        // Arithmetic growth: Each day adds the initial amount
         calculated = initialAmount * (i + 1);
       }
       dailyValues.push(calculated);
     }
     
-    // If interest rate is enabled, add it on top (monthly rate)
+    if (growthType === "exponential") {
+      calculated = dailyValues[days];
+    } else {
+      calculated = dailyValues.reduce((sum, value) => sum + value, 0);
+    }
+    
     if (useInterestRate) {
       const monthlyRate = interestRate / 100;
-      const months = days / 30; // Approximate months
+      const months = days / 30;
       calculated = calculated * Math.pow(1 + monthlyRate, months);
     }
     
@@ -59,10 +60,9 @@ const CompoundInterestCalculator = () => {
 
   const handleDaysChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value);
-    setDays(isNaN(value) ? 0 : Math.min(value, 366)); // Updated to 366 days (leap year)
+    setDays(isNaN(value) ? 0 : Math.min(value, 366));
   };
 
-  // Format number with commas
   const formatNumber = (num: number): string => {
     return num.toLocaleString('vi-VN');
   };
@@ -71,7 +71,6 @@ const CompoundInterestCalculator = () => {
     setInterestRate(value[0]);
   };
 
-  // Function to convert large numbers to readable text
   const formatReadableNumber = (num: number): string => {
     if (num < 1000) return `${num.toFixed(2)}`;
     if (num < 1000000) return `${(num / 1000).toFixed(2)} nghìn`;
@@ -201,9 +200,9 @@ const CompoundInterestCalculator = () => {
         
         <div className="text-sm text-gray-500 mt-4">
           {growthType === "exponential" ? (
-            <p>Mỗi ngày số tiền được gấp đôi so với ngày đầu: Số tiền cuối = Số tiền đầu × 2^Số ngày</p>
+            <p>Mỗi ngày số tiền được gấp đôi so với ngày trước đó</p>
           ) : (
-            <p>Mỗi ngày cộng thêm số tiền ban đầu: Số tiền cuối = Số tiền đầu × (Số ngày + 1)</p>
+            <p>Tổng của chuỗi số: 1000 + 2000 + 3000 + ... + N×1000</p>
           )}
           {useInterestRate && <p className="mt-1">Kèm theo lãi suất hàng tháng: {interestRate}%</p>}
         </div>
