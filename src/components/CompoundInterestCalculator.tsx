@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -59,16 +58,16 @@ const CompoundInterestCalculator = () => {
 
   const handleDaysChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value);
-    setDays(isNaN(value) ? 0 : Math.min(value, 30)); // Limit to 30 days to prevent overflow
-  };
-
-  const handleSliderChange = (value: number[]) => {
-    setInterestRate(value[0]);
+    setDays(isNaN(value) ? 0 : Math.min(value, 366)); // Updated to 366 days (leap year)
   };
 
   // Format number with commas
   const formatNumber = (num: number): string => {
     return num.toLocaleString('vi-VN');
+  };
+
+  const handleSliderChange = (value: number[]) => {
+    setInterestRate(value[0]);
   };
 
   // Function to convert large numbers to readable text
@@ -108,12 +107,12 @@ const CompoundInterestCalculator = () => {
         </div>
         
         <div>
-          <Label htmlFor="days">Số ngày tăng tiền:</Label>
+          <Label htmlFor="days">Số ngày tăng tiền (tối đa 366 ngày):</Label>
           <Input
             id="days"
             type="number"
             min="1"
-            max="30"
+            max="366"
             value={days}
             onChange={handleDaysChange}
             className="mt-1 bg-gray-50 border-edu-green"
