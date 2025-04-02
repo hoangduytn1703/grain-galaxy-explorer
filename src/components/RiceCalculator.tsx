@@ -94,14 +94,14 @@ const RiceCalculator = () => {
           
           <div className="space-y-2">
             <p className="text-sm font-medium text-gray-500">Quy đổi thành:</p>
-            <p className="text-lg font-bold text-edu-green">{tons.toFixed(6)} tấn</p>
+            <p className="text-lg font-bold text-edu-green">{formatNumber(tons)} tấn</p>
             <p className="text-sm text-gray-600">({formatReadableNumber(tons)} tấn)</p>
           </div>
           
           <div className="space-y-2">
             <p className="text-sm font-medium text-gray-500">Phần trăm sản lượng lúa của Việt Nam trong 1 năm:</p>
             <p className="text-lg font-bold text-edu-purple">
-              {percentage.toFixed(6)}%
+              {formatNumber(percentage)}%
             </p>
             <p className="text-sm text-gray-600">
               ({formatReadableNumber(percentage)}%)

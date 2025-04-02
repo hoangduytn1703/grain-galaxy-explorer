@@ -55,11 +55,20 @@ const LightDistanceCalculator = () => {
     setTimeUnit(value);
   };
 
+  // Format number with commas
   const formatNumber = (num: number): string => {
-    if (num >= 1e12 || (num < 1e-6 && num > 0)) {
-      return num.toExponential(2);
-    }
-    return num.toLocaleString(undefined, { maximumFractionDigits: 6 });
+    return num.toLocaleString('vi-VN', { maximumFractionDigits: 6 });
+  };
+
+  // Function to convert large numbers to readable text
+  const formatReadableNumber = (num: number): string => {
+    if (num < 1000) return `${num.toFixed(2)}`;
+    if (num < 1000000) return `${(num / 1000).toFixed(2)} nghìn`;
+    if (num < 1000000000) return `${(num / 1000000).toFixed(2)} triệu`;
+    if (num < 1000000000000) return `${(num / 1000000000).toFixed(2)} tỷ`;
+    if (num < 1000000000000000) return `${(num / 1000000000000).toFixed(2)} nghìn tỷ`;
+    if (num < 1000000000000000000) return `${(num / 1000000000000000).toFixed(2)} triệu tỷ`;
+    return `${(num / 1000000000000000000).toFixed(2)} tỷ tỷ`;
   };
 
   return (
@@ -104,31 +113,37 @@ const LightDistanceCalculator = () => {
           <div className="space-y-1">
             <p className="text-sm font-medium text-gray-500">Khoảng cách (km):</p>
             <p className="text-lg font-bold text-edu-blue">{formatNumber(distanceKm)} km</p>
+            <p className="text-sm text-gray-600">({formatReadableNumber(distanceKm)} km)</p>
           </div>
           
           <div className="space-y-1">
             <p className="text-sm font-medium text-gray-500">Năm ánh sáng:</p>
             <p className="text-lg font-bold text-edu-red">{formatNumber(lightYears)} năm ánh sáng</p>
+            <p className="text-sm text-gray-600">({formatReadableNumber(lightYears)} năm ánh sáng)</p>
           </div>
           
           <div className="space-y-1">
             <p className="text-sm font-medium text-gray-500">Số lần từ Trái Đất đến Mặt Trăng:</p>
             <p className="text-lg font-bold text-edu-yellow">{formatNumber(moonTrips)} lần</p>
+            <p className="text-sm text-gray-600">({formatReadableNumber(moonTrips)} lần)</p>
           </div>
           
           <div className="space-y-1">
             <p className="text-sm font-medium text-gray-500">Số lần từ Trái Đất đến Mặt Trời:</p>
             <p className="text-lg font-bold text-edu-orange">{formatNumber(sunTrips)} lần</p>
+            <p className="text-sm text-gray-600">({formatReadableNumber(sunTrips)} lần)</p>
           </div>
           
           <div className="space-y-1">
             <p className="text-sm font-medium text-gray-500">Phần trăm so với khoảng cách đến rìa Dải Ngân Hà:</p>
             <p className="text-lg font-bold text-edu-teal">{formatNumber(galaxyEdgePercent)}%</p>
+            <p className="text-sm text-gray-600">({formatReadableNumber(galaxyEdgePercent)}%)</p>
           </div>
           
           <div className="space-y-1">
             <p className="text-sm font-medium text-gray-500">Số vòng quanh Trái Đất (theo đường xích đạo):</p>
             <p className="text-lg font-bold text-edu-green">{formatNumber(earthCircumferences)} vòng</p>
+            <p className="text-sm text-gray-600">({formatReadableNumber(earthCircumferences)} vòng)</p>
           </div>
         </div>
         

@@ -32,11 +32,20 @@ const CompoundInterestCalculator = () => {
     setInterestRate(value[0]);
   };
 
+  // Format number with commas
   const formatNumber = (num: number): string => {
-    if (num >= 1e12) {
-      return num.toExponential(2);
-    }
-    return num.toLocaleString();
+    return num.toLocaleString('vi-VN');
+  };
+
+  // Function to convert large numbers to readable text
+  const formatReadableNumber = (num: number): string => {
+    if (num < 1000) return `${num.toFixed(2)}`;
+    if (num < 1000000) return `${(num / 1000).toFixed(2)} nghìn`;
+    if (num < 1000000000) return `${(num / 1000000).toFixed(2)} triệu`;
+    if (num < 1000000000000) return `${(num / 1000000000).toFixed(2)} tỷ`;
+    if (num < 1000000000000000) return `${(num / 1000000000000).toFixed(2)} nghìn tỷ`;
+    if (num < 1000000000000000000) return `${(num / 1000000000000000).toFixed(2)} triệu tỷ`;
+    return `${(num / 1000000000000000000).toFixed(2)} tỷ tỷ`;
   };
 
   return (
@@ -89,10 +98,12 @@ const CompoundInterestCalculator = () => {
         <div className="p-4 bg-gray-50 rounded-lg">
           <p className="text-sm font-medium text-gray-500 mb-2">Số tiền sau {days} ngày:</p>
           <p className="text-2xl font-bold text-edu-green">{formatNumber(finalAmount)}</p>
+          <p className="text-sm text-gray-600">({formatReadableNumber(finalAmount)})</p>
           
           <div className="mt-4 text-sm">
             <p className="font-medium text-gray-700">Tăng:</p>
             <p className="font-bold text-edu-red">{formatNumber(finalAmount - initialAmount)}</p>
+            <p className="text-sm text-gray-600">({formatReadableNumber(finalAmount - initialAmount)})</p>
             <p className="font-medium text-gray-700 mt-2">Gấp số tiền ban đầu:</p>
             <p className="font-bold text-edu-purple">{(finalAmount / initialAmount).toFixed(2)} lần</p>
           </div>
