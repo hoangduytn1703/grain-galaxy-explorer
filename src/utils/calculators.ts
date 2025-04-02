@@ -1,3 +1,4 @@
+
 // Rice Calculator functions
 export const calculateRiceGrains = (squares: number): number => {
   if (squares <= 0 || squares > 64) return 0;

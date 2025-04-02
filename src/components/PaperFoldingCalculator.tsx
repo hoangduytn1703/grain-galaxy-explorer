@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
-import { Calculator, Fold } from "lucide-react";
+import { Calculator, BookMarked } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
 const PaperFoldingCalculator = () => {
@@ -102,7 +102,7 @@ const PaperFoldingCalculator = () => {
   return (
     <div className="w-full p-4 rounded-lg bg-white">
       <div className="flex items-center gap-2 mb-4">
-        <Fold size={24} className="text-edu-orange" />
+        <BookMarked size={24} className="text-edu-orange" />
         <h3 className="text-xl font-bold text-edu-orange">Khám Phá Độ Dày Của Giấy Gấp</h3>
       </div>
       

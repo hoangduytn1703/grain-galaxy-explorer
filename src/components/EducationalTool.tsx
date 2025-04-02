@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Calculator, Clock, BookOpen, Lightbulb, Fold } from "lucide-react";
+import { Calculator, Clock, BookOpen, Lightbulb, BookMarked } from "lucide-react";
 import RiceCalculator from "./RiceCalculator";
 import CompoundInterestCalculator from "./CompoundInterestCalculator";
 import LightDistanceCalculator from "./LightDistanceCalculator";
@@ -66,7 +66,7 @@ const EducationalTool = () => {
         <Card className="shadow-lg">
           <CardHeader>
             <CardTitle className="text-2xl flex items-center gap-2">
-              <Fold className="h-5 w-5" /> Gấp Giấy
+              <BookMarked className="h-5 w-5" /> Gấp Giấy
             </CardTitle>
             <CardDescription>
               Khám phá sự tăng trưởng theo cấp số nhân khi gấp giấy
