@@ -1,0 +1,109 @@
+
+import React, { useState, useEffect } from "react";
+import { calculateCompoundInterest } from "@/utils/calculators";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Calculator } from "lucide-react";
+import { Slider } from "@/components/ui/slider";
+
+const CompoundInterestCalculator = () => {
+  const [initialAmount, setInitialAmount] = useState<number>(1);
+  const [days, setDays] = useState<number>(30);
+  const [interestRate, setInterestRate] = useState<number>(5);
+  const [finalAmount, setFinalAmount] = useState<number>(0);
+
+  useEffect(() => {
+    const rate = interestRate / 100; // Convert percentage to decimal
+    const calculated = calculateCompoundInterest(initialAmount, days, rate);
+    setFinalAmount(calculated);
+  }, [initialAmount, days, interestRate]);
+
+  const handleInitialAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseFloat(e.target.value);
+    setInitialAmount(isNaN(value) ? 0 : value);
+  };
+
+  const handleDaysChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(e.target.value);
+    setDays(isNaN(value) ? 0 : value);
+  };
+
+  const handleSliderChange = (value: number[]) => {
+    setInterestRate(value[0]);
+  };
+
+  const formatNumber = (num: number): string => {
+    if (num >= 1e12) {
+      return num.toExponential(2);
+    }
+    return num.toLocaleString();
+  };
+
+  return (
+    <div className="w-full p-4 rounded-lg bg-white">
+      <div className="flex items-center gap-2 mb-4">
+        <Calculator size={24} className="text-edu-green" />
+        <h3 className="text-xl font-bold text-edu-green">Tính Lãi Suất Kép</h3>
+      </div>
+      
+      <div className="space-y-4">
+        <div>
+          <Label htmlFor="initialAmount">Số tiền ban đầu (ngày 1):</Label>
+          <Input
+            id="initialAmount"
+            type="number"
+            min="1"
+            value={initialAmount}
+            onChange={handleInitialAmountChange}
+            className="mt-1 bg-gray-50 border-edu-green"
+          />
+        </div>
+        
+        <div>
+          <Label htmlFor="days">Số ngày:</Label>
+          <Input
+            id="days"
+            type="number"
+            min="1"
+            max="365"
+            value={days}
+            onChange={handleDaysChange}
+            className="mt-1 bg-gray-50 border-edu-green"
+          />
+        </div>
+        
+        <div>
+          <div className="flex justify-between">
+            <Label htmlFor="interestRate">Lãi suất hàng ngày: {interestRate}%</Label>
+          </div>
+          <Slider
+            defaultValue={[5]}
+            max={20}
+            min={1}
+            step={1}
+            onValueChange={handleSliderChange}
+            className="mt-2"
+          />
+        </div>
+        
+        <div className="p-4 bg-gray-50 rounded-lg">
+          <p className="text-sm font-medium text-gray-500 mb-2">Số tiền sau {days} ngày:</p>
+          <p className="text-2xl font-bold text-edu-green">{formatNumber(finalAmount)}</p>
+          
+          <div className="mt-4 text-sm">
+            <p className="font-medium text-gray-700">Tăng:</p>
+            <p className="font-bold text-edu-red">{formatNumber(finalAmount - initialAmount)}</p>
+            <p className="font-medium text-gray-700 mt-2">Gấp số tiền ban đầu:</p>
+            <p className="font-bold text-edu-purple">{(finalAmount / initialAmount).toFixed(2)} lần</p>
+          </div>
+        </div>
+        
+        <div className="text-sm text-gray-500 mt-4">
+          <p>Áp dụng công thức lãi kép: Số tiền cuối = Số tiền đầu × (1 + Lãi suất)^Số ngày</p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default CompoundInterestCalculator;
