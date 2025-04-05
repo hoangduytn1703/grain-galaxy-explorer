@@ -1,4 +1,3 @@
-
 // Rice Calculator functions
 export const calculateRiceGrains = (squares: number): number => {
   if (squares <= 0 || squares > 64) return 0;
@@ -72,6 +71,12 @@ export const kmToEarthCircumferenceTrips = (km: number): number => {
   // Earth's equatorial circumference ≈ 40,075 km
   const earthCircumference = 40075;
   return km / earthCircumference;
+};
+
+export const compareToUniverseAge = (lightYears: number): number => {
+  // Universe age = 13.8 billion years
+  const universeAgeYears = 13.8e9;
+  return (lightYears / universeAgeYears) * 100;
 };
 
 // Time conversion functions for light calculator

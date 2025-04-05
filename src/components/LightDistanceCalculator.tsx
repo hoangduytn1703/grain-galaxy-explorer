@@ -7,7 +7,8 @@ import {
   kmToEarthToSunTrips,
   kmToMilkyWayEdgeTrips,
   kmToEarthCircumferenceTrips,
-  convertTimeToSeconds
+  convertTimeToSeconds,
+  compareToUniverseAge
 } from "@/utils/calculators";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -33,17 +34,20 @@ const LightDistanceCalculator = () => {
   const [sunTrips, setSunTrips] = useState<number>(0);
   const [galaxyEdgePercent, setGalaxyEdgePercent] = useState<number>(0);
   const [earthCircumferences, setEarthCircumferences] = useState<number>(0);
+  const [universeAgePercent, setUniverseAgePercent] = useState<number>(0);
 
   useEffect(() => {
     const seconds = convertTimeToSeconds(timeValue, timeUnit);
     const distance = lightDistanceInKm(seconds);
+    const calculatedLightYears = kmToLightYears(distance);
     
     setDistanceKm(distance);
-    setLightYears(kmToLightYears(distance));
+    setLightYears(calculatedLightYears);
     setMoonTrips(kmToEarthToMoonTrips(distance));
     setSunTrips(kmToEarthToSunTrips(distance));
     setGalaxyEdgePercent(kmToMilkyWayEdgeTrips(distance) * 100);
     setEarthCircumferences(kmToEarthCircumferenceTrips(distance));
+    setUniverseAgePercent(compareToUniverseAge(calculatedLightYears));
   }, [timeValue, timeUnit]);
 
   const handleTimeValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -144,6 +148,12 @@ const LightDistanceCalculator = () => {
             <p className="text-sm font-medium text-gray-500">Số vòng quanh Trái Đất (theo đường xích đạo):</p>
             <p className="text-lg font-bold text-edu-green">{formatNumber(earthCircumferences)} vòng</p>
             <p className="text-sm text-gray-600">({formatReadableNumber(earthCircumferences)} vòng)</p>
+          </div>
+          
+          <div className="space-y-1">
+            <p className="text-sm font-medium text-gray-500">Phần trăm so với tuổi của vũ trụ (13,8 tỷ năm):</p>
+            <p className="text-lg font-bold text-edu-purple">{formatNumber(universeAgePercent)}%</p>
+            <p className="text-sm text-gray-600">({formatReadableNumber(universeAgePercent)}%)</p>
           </div>
         </div>
         
