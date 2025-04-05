@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import {
   calculateFoldedThickness,
@@ -79,14 +78,12 @@ const PaperFoldingCalculator = () => {
     setFolds(value[0]);
   };
 
-  // Format number with commas
   const formatNumber = (num: number): string => {
     if (num === undefined || num === null) return "0";
     if (isNaN(num)) return "0";
     return num.toLocaleString('vi-VN', { maximumFractionDigits: 6 });
   };
 
-  // Function to convert large numbers to readable text
   const formatReadableNumber = (num: number): string => {
     if (num === undefined || num === null) return "0";
     if (isNaN(num)) return "0";
@@ -99,7 +96,6 @@ const PaperFoldingCalculator = () => {
     return `${(num / 1000000000000000000).toFixed(2)} tỷ tỷ`;
   };
 
-  // Function to format exponential numbers
   const formatExponential = (num: number): string => {
     if (num === undefined || num === null) return "0";
     if (isNaN(num)) return "0";
@@ -218,8 +214,16 @@ const PaperFoldingCalculator = () => {
           
           <div className="space-y-1">
             <p className="text-sm font-medium text-gray-500">So với đường kính Vũ trụ quan sát được:</p>
-            <p className="text-lg font-bold text-pink-500">{formatExponential(universePortion)} lần</p>
-            <p className="text-sm text-gray-600">({formatReadableNumber(universePortion)} lần)</p>
+            <p className="text-lg font-bold text-pink-500">
+              {universePortion < 0.01 
+                ? `${(universePortion * 100).toFixed(6)}%` 
+                : `${formatExponential(universePortion)} lần`}
+            </p>
+            <p className="text-sm text-gray-600">
+              {universePortion < 0.01 
+                ? `(${formatReadableNumber(universePortion * 100)}% đường kính vũ trụ)` 
+                : `(${formatReadableNumber(universePortion)} lần)`}
+            </p>
           </div>
         </div>
         

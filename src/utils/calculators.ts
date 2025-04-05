@@ -135,13 +135,14 @@ export const thicknessToObservableUniverse = (thicknessInMm: number): number => 
   // 1 light year ≈ 9.461 trillion km ≈ 9.461 x 10^15 mm
   
   // Convert correctly: 93 billion light years to mm
-  // 93 * 10^9 light years * 9.461 * 10^15 mm/light year
+  // 93 * 10^9 light years * 9.461 * 10^15 mm/light year = 8.8 * 10^26 mm
   const observableUniverseDiameterMm = 93e9 * 9.461e15;
   
   // Calculate what fraction of the observable universe the paper thickness represents
+  // For a standard paper (0.1mm) folded 100 times: 0.1 * 2^100 mm / (8.8 * 10^26 mm) ≈ 0.144
   const fraction = thicknessInMm / observableUniverseDiameterMm;
   
-  // Return the fraction as a ratio (if result is 0.144, it means 14.4% of the diameter)
+  // Return the fraction (if result is 0.144, it means 14.4% of the diameter)
   return fraction;
 };
 
