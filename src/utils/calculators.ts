@@ -118,35 +118,23 @@ export const thicknessToEarthToMoonDistance = (thicknessInMm: number): number =>
 };
 
 export const thicknessToSolarSystemDistance = (thicknessInMm: number): number => {
-  // Solar system diameter is approximately 9 billion km = 9 * 10^12 km = 9 * 10^15 mm
-  // Corrected value: ~4.461 * 10^12 km = 4.461 * 10^15 mm (based on the image)
-  const solarSystemDiameterMm = 4.461e15;
+  // Solar system diameter is approximately 9 billion km = 9 * 10^15 mm
+  const solarSystemDiameterMm = 9e15;
   return thicknessInMm / solarSystemDiameterMm;
 };
 
 export const thicknessToMilkyWayDiameter = (thicknessInMm: number): number => {
   // Milky Way diameter is approximately 100,000 light years
-  // Corrected: 1 light year = 9.461 * 10^12 km = 9.461 * 10^15 mm
-  // 100,000 light years = 9.461 * 10^20 mm
-  // Adjustment per image: diameter = 1.339 * 10^5 larger than paper
-  const milkyWayDiameterMm = 1.339e5 * calculateFoldedThickness(0.1, 100);
+  // 1 light year = 9.461 trillion km = 9.461 * 10^15 mm
+  const milkyWayDiameterMm = 100000 * 9.461 * Math.pow(10, 15);
   return thicknessInMm / milkyWayDiameterMm;
 };
 
 export const thicknessToObservableUniverse = (thicknessInMm: number): number => {
   // Diameter of observable universe ≈ 93 billion light years
   // 1 light year ≈ 9.461 trillion km ≈ 9.461 x 10^15 mm
-  
-  // Convert correctly: 93 billion light years to mm
-  // 93 * 10^9 light years * 9.461 * 10^15 mm/light year = 8.8 * 10^26 mm
   const observableUniverseDiameterMm = 93e9 * 9.461e15;
-  
-  // Calculate what fraction of the observable universe the paper thickness represents
-  // For a standard paper (0.1mm) folded 100 times: 0.1 * 2^100 mm / (8.8 * 10^26 mm) ≈ 0.144
-  const fraction = thicknessInMm / observableUniverseDiameterMm;
-  
-  // Return the fraction (if result is 0.144, it means 14.4% of the diameter)
-  return fraction;
+  return thicknessInMm / observableUniverseDiameterMm;
 };
 
 // Compound interest calculator functions
