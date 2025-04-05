@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -37,9 +36,10 @@ const CompoundInterestCalculator = () => {
     const dailyValues = [];
     
     if (growthType === "none") {
-      calculated = initialAmount;
+      // For "none" growth type, we simply multiply initial amount by time
+      calculated = initialAmount * days;
       for (let i = 1; i <= Math.min(days, 30); i++) {
-        dailyValues.push(initialAmount);
+        dailyValues.push(initialAmount * i);
       }
     } else if (growthType === "exponential") {
       // For day 1, use initialAmount, then double previous day's amount
@@ -67,9 +67,7 @@ const CompoundInterestCalculator = () => {
       if (days > 30) {
         // For arithmetic progression, we can use the formula: sum = n * (a1 + an) / 2
         // where n is the number of terms, a1 is the first term, and an is the last term
-        calculated = days * (initialAmount + (initialAmount * days)) / 2;
-      } else {
-        calculated = dailyValues.reduce((sum, value) => sum + value, 0);
+        calculated = initialAmount * days;
       }
     }
     
@@ -219,7 +217,7 @@ const CompoundInterestCalculator = () => {
               onChange={() => setGrowthType("none")}
               className="text-edu-green"
             />
-            <Label htmlFor="none">Không tăng</Label>
+            <Label htmlFor="none">Tích lũy</Label>
           </div>
         </div>
         
@@ -288,9 +286,9 @@ const CompoundInterestCalculator = () => {
           {growthType === "exponential" ? (
             <p>Mỗi ngày số tiền được gấp đôi so với ngày trước đó</p>
           ) : growthType === "arithmetic" ? (
-            <p>Tổng của chuỗi số: 1000 + 2000 + 3000 + ... + N×1000</p>
+            <p>Mỗi ngày số tiền tăng thêm bằng số tiền ban đầu</p>
           ) : (
-            <p>Số tiền không tăng theo thời gian</p>
+            <p>Tích lũy tiết kiệm: số tiền ban đầu × số {getTimeUnitLabel()}</p>
           )}
           {useInterestRate && <p className="mt-1">Kèm theo lãi suất hàng tháng: {interestRate}%</p>}
         </div>
