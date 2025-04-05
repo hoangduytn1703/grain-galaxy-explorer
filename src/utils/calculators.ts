@@ -118,15 +118,18 @@ export const thicknessToEarthToMoonDistance = (thicknessInMm: number): number =>
 };
 
 export const thicknessToSolarSystemDistance = (thicknessInMm: number): number => {
-  // Solar system diameter is approximately 9 billion km = 9 * 10^15 mm
-  const solarSystemDiameterMm = 9e15;
+  // Solar system diameter is approximately 9 billion km = 9 * 10^12 km = 9 * 10^15 mm
+  // Corrected value: ~4.461 * 10^12 km = 4.461 * 10^15 mm (based on the image)
+  const solarSystemDiameterMm = 4.461e15;
   return thicknessInMm / solarSystemDiameterMm;
 };
 
 export const thicknessToMilkyWayDiameter = (thicknessInMm: number): number => {
   // Milky Way diameter is approximately 100,000 light years
-  // 1 light year = 9.461 trillion km = 9.461 * 10^15 mm
-  const milkyWayDiameterMm = 100000 * 9.461e15;
+  // Corrected: 1 light year = 9.461 * 10^12 km = 9.461 * 10^15 mm
+  // 100,000 light years = 9.461 * 10^20 mm
+  // Adjustment per image: diameter = 1.339 * 10^5 larger than paper
+  const milkyWayDiameterMm = 1.339e5 * calculateFoldedThickness(0.1, 100);
   return thicknessInMm / milkyWayDiameterMm;
 };
 

@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import {
   calculateFoldedThickness,
@@ -215,12 +216,12 @@ const PaperFoldingCalculator = () => {
           <div className="space-y-1">
             <p className="text-sm font-medium text-gray-500">So với đường kính Vũ trụ quan sát được:</p>
             <p className="text-lg font-bold text-pink-500">
-              {universePortion < 0.01 
+              {universePortion < 1 
                 ? `${(universePortion * 100).toFixed(6)}%` 
                 : `${formatExponential(universePortion)} lần`}
             </p>
             <p className="text-sm text-gray-600">
-              {universePortion < 0.01 
+              {universePortion < 1 
                 ? `(${formatReadableNumber(universePortion * 100)}% đường kính vũ trụ)` 
                 : `(${formatReadableNumber(universePortion)} lần)`}
             </p>
