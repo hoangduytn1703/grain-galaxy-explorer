@@ -1,3 +1,4 @@
+
 // Rice Calculator functions
 export const calculateRiceGrains = (squares: number): number => {
   if (squares <= 0 || squares > 64) return 0;
@@ -33,6 +34,25 @@ export const calculateCompoundInterest = (
   dailyInterestRate: number = 0.05 // 5% daily growth
 ): number => {
   return initialAmount * Math.pow(1 + dailyInterestRate, days);
+};
+
+// Time conversion functions for compound interest calculator
+export const convertTimeUnit = (
+  value: number,
+  timeUnit: string
+): number => {
+  switch (timeUnit) {
+    case "day":
+      return value;
+    case "week":
+      return value * 7;
+    case "month":
+      return value * 30; // approximation
+    case "year":
+      return value * 365; // approximation
+    default:
+      return value;
+  }
 };
 
 // Light Distance Calculator functions
