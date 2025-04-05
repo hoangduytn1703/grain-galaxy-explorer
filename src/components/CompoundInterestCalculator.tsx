@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -59,14 +60,14 @@ const CompoundInterestCalculator = () => {
         }
       }
     } else { // arithmetic
+      // For arithmetic progression, each day adds the initial amount
       for (let i = 1; i <= Math.min(days, 30); i++) {
         calculated = initialAmount * i;
         dailyValues.push(calculated);
       }
       
       if (days > 30) {
-        // For arithmetic progression, we can use the formula: sum = n * (a1 + an) / 2
-        // where n is the number of terms, a1 is the first term, and an is the last term
+        // For arithmetic progression, each day adds the initial amount
         calculated = initialAmount * days;
       }
     }
