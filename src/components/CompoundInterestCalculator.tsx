@@ -60,16 +60,23 @@ const CompoundInterestCalculator = () => {
         }
       }
     } else { // arithmetic
-      // For arithmetic progression, each day adds the initial amount
+      // For arithmetic progression
+      let sum = 0;
       for (let i = 1; i <= Math.min(days, 30); i++) {
-        calculated = initialAmount * i;
-        dailyValues.push(calculated);
+        const dayAmount = initialAmount * i;
+        sum += dayAmount;
+        dailyValues.push(dayAmount);
       }
       
       if (days > 30) {
-        // For arithmetic progression, each day adds the initial amount
-        calculated = initialAmount * days;
+        // Use formula for sum of arithmetic sequence: sum = n/2 * (first + last)
+        // where n is number of days, first = initialAmount, last = initialAmount * days
+        sum = (days / 2) * (initialAmount + (initialAmount * days));
+      } else {
+        sum = dailyValues.reduce((acc, current) => acc + current, 0);
       }
+      
+      calculated = sum;
     }
     
     if (useInterestRate) {
@@ -287,7 +294,7 @@ const CompoundInterestCalculator = () => {
           {growthType === "exponential" ? (
             <p>Mỗi ngày số tiền được gấp đôi so với ngày trước đó</p>
           ) : growthType === "arithmetic" ? (
-            <p>Mỗi ngày số tiền tăng thêm bằng số tiền ban đầu</p>
+            <p>Mỗi ngày số tiền tăng theo cấp số cộng: ngày 1 = 1×, ngày 2 = 2×, ngày 3 = 3×...</p>
           ) : (
             <p>Tích lũy tiết kiệm: số tiền ban đầu × số {getTimeUnitLabel()}</p>
           )}
