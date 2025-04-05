@@ -7,7 +7,9 @@ import {
   thicknessToLightDays,
   thicknessToEverestHeight,
   thicknessToEarthToMoonDistance,
-  thicknessToSolarSystemDistance
+  thicknessToSolarSystemDistance,
+  thicknessToMilkyWayDiameter,
+  thicknessToObservableUniverse
 } from "@/utils/calculators";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -25,6 +27,8 @@ const PaperFoldingCalculator = () => {
   const [everestHeights, setEverestHeights] = useState<number>(0);
   const [moonDistances, setMoonDistances] = useState<number>(0);
   const [solarSystemPortion, setSolarSystemPortion] = useState<number>(0);
+  const [milkyWayPortion, setMilkyWayPortion] = useState<number>(0);
+  const [universePortion, setUniversePortion] = useState<number>(0);
   const [error, setError] = useState<string>("");
 
   useEffect(() => {
@@ -52,6 +56,8 @@ const PaperFoldingCalculator = () => {
     const everest = thicknessToEverestHeight(thickness);
     const moon = thicknessToEarthToMoonDistance(thickness);
     const solarSystem = thicknessToSolarSystemDistance(thickness);
+    const milkyWay = thicknessToMilkyWayDiameter(thickness);
+    const universe = thicknessToObservableUniverse(thickness);
 
     setResultThickness(thickness);
     setThicknessInKm(kmThickness);
@@ -60,6 +66,8 @@ const PaperFoldingCalculator = () => {
     setEverestHeights(everest);
     setMoonDistances(moon);
     setSolarSystemPortion(solarSystem);
+    setMilkyWayPortion(milkyWay);
+    setUniversePortion(universe);
   }, [paperThickness, folds]);
 
   const handlePaperThicknessChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -200,6 +208,18 @@ const PaperFoldingCalculator = () => {
             <p className="text-sm font-medium text-gray-500">So với đường kính Hệ Mặt Trời:</p>
             <p className="text-lg font-bold text-edu-teal">{formatExponential(solarSystemPortion)} lần</p>
             <p className="text-sm text-gray-600">({formatReadableNumber(solarSystemPortion)} lần)</p>
+          </div>
+          
+          <div className="space-y-1">
+            <p className="text-sm font-medium text-gray-500">So với đường kính Dải Ngân Hà:</p>
+            <p className="text-lg font-bold text-indigo-500">{formatExponential(milkyWayPortion)} lần</p>
+            <p className="text-sm text-gray-600">({formatReadableNumber(milkyWayPortion)} lần)</p>
+          </div>
+          
+          <div className="space-y-1">
+            <p className="text-sm font-medium text-gray-500">So với đường kính Vũ trụ quan sát được:</p>
+            <p className="text-lg font-bold text-pink-500">{formatExponential(universePortion)} lần</p>
+            <p className="text-sm text-gray-600">({formatReadableNumber(universePortion)} lần)</p>
           </div>
         </div>
         

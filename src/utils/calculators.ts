@@ -162,3 +162,17 @@ export const thicknessToSolarSystemDistance = (thicknessInMm: number): number =>
   const solarSystemDiameterMm = 9 * Math.pow(10, 15);
   return thicknessInMm / solarSystemDiameterMm;
 };
+
+export const thicknessToMilkyWayDiameter = (thicknessInMm: number): number => {
+  // Diameter of Milky Way galaxy ≈ 100,000 light years
+  // 1 light year ≈ 9.461 trillion km ≈ 9.461 x 10^15 mm
+  const milkyWayDiameterMm = 100000 * 9.461 * Math.pow(10, 15);
+  return thicknessInMm / milkyWayDiameterMm;
+};
+
+export const thicknessToObservableUniverse = (thicknessInMm: number): number => {
+  // Diameter of observable universe ≈ 93 billion light years
+  // 1 light year ≈ 9.461 trillion km ≈ 9.461 x 10^15 mm
+  const observableUniverseDiameterMm = 93000000000 * 9.461 * Math.pow(10, 15);
+  return thicknessInMm / observableUniverseDiameterMm;
+};
