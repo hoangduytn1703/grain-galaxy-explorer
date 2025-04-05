@@ -1,61 +1,109 @@
 
-// Rice calculator functions
+// Rice Calculator functions
 export const calculateRiceGrains = (squares: number): number => {
-  // 2^(n-1) where n is the square number
-  return Math.pow(2, squares - 1);
+  if (squares <= 0 || squares > 64) return 0;
+  
+  // Start with 1 grain on the first square
+  let total = 0;
+  let currentGrains = 1;
+  
+  for (let i = 1; i <= squares; i++) {
+    total += currentGrains;
+    currentGrains *= 2;
+  }
+  
+  return total;
 };
 
 export const grainsToTons = (grains: number): number => {
-  // Average rice grain weight is about 0.02 grams
-  // 1 ton = 1,000,000 grams
-  return (grains * 0.02) / 1000000;
+  // Approx 50,000 grains of rice per kg
+  // 1 ton = 1000 kg
+  return grains / (50000 * 1000);
 };
 
 export const vietnamRicePercentage = (tons: number): number => {
-  // Vietnam produces approximately 28 million tons of rice per year
-  const vietnamAnnualRiceProduction = 28000000;
-  return (tons / vietnamAnnualRiceProduction) * 100;
+  // Vietnam produces approximately 42.4 million tons of rice per year (updated 2024)
+  const vietnamAnnualProduction = 42_400_000;
+  return (tons / vietnamAnnualProduction) * 100;
 };
 
-// Light distance calculator functions
-export const lightDistanceInKm = (seconds: number): number => {
-  // Speed of light in vacuum is 299,792.458 km/s
-  const lightSpeed = 299792.458; // km/s
-  return lightSpeed * seconds;
+// Compound Interest Calculator functions
+export const calculateCompoundInterest = (
+  initialAmount: number,
+  days: number,
+  dailyInterestRate: number = 0.05 // 5% daily growth
+): number => {
+  return initialAmount * Math.pow(1 + dailyInterestRate, days);
+};
+
+// Time conversion functions for compound interest calculator
+export const convertTimeUnit = (
+  value: number,
+  timeUnit: string
+): number => {
+  switch (timeUnit) {
+    case "day":
+      return value;
+    case "week":
+      return value * 7;
+    case "month":
+      return value * 30; // approximation
+    case "year":
+      return value * 365; // approximation
+    default:
+      return value;
+  }
+};
+
+// Light Distance Calculator functions
+export const lightDistanceInKm = (timeInSeconds: number): number => {
+  // Speed of light in km/s = 299,792.458 km/s
+  const speedOfLightKmPerSecond = 299792.458;
+  return timeInSeconds * speedOfLightKmPerSecond;
 };
 
 export const kmToLightYears = (km: number): number => {
-  // 1 light year = 9.461 trillion kilometers
+  // 1 light year = 9.461 trillion km
   const kmPerLightYear = 9.461e12;
   return km / kmPerLightYear;
 };
 
 export const kmToEarthToMoonTrips = (km: number): number => {
-  // Average distance Earth to Moon is approximately 384,400 km
+  // Average distance from Earth to Moon = 384,400 km
   const earthToMoonDistance = 384400;
   return km / earthToMoonDistance;
 };
 
 export const kmToEarthToSunTrips = (km: number): number => {
-  // Average distance Earth to Sun is approximately 149.6 million km
+  // Average distance from Earth to Sun = 149.6 million km
   const earthToSunDistance = 149600000;
   return km / earthToSunDistance;
 };
 
 export const kmToMilkyWayEdgeTrips = (km: number): number => {
-  // The Milky Way galaxy is approximately 100,000 light years in diameter
-  // 1 light year = 9.461 trillion kilometers
-  const milkyWayDiameterKm = 100000 * 9.461e12;
-  return km / milkyWayDiameterKm;
+  // Distance from Earth to the edge of Milky Way ≈ 25,000 light years
+  // 1 light year = 9.461 trillion km
+  const edgeOfMilkyWayDistance = 25000 * 9.461e12;
+  return km / edgeOfMilkyWayDistance;
 };
 
 export const kmToEarthCircumferenceTrips = (km: number): number => {
-  // Earth circumference at the equator is approximately 40,075 km
-  const earthCircumferenceKm = 40075;
-  return km / earthCircumferenceKm;
+  // Earth's equatorial circumference ≈ 40,075 km
+  const earthCircumference = 40075;
+  return km / earthCircumference;
 };
 
-export const convertTimeToSeconds = (timeValue: number, timeUnit: string): number => {
+export const compareToUniverseAge = (lightYears: number): number => {
+  // Universe age = 13.8 billion years
+  const universeAgeYears = 13.8e9;
+  return (lightYears / universeAgeYears) * 100;
+};
+
+// Time conversion functions for light calculator
+export const convertTimeToSeconds = (
+  timeValue: number,
+  timeUnit: string
+): number => {
   switch (timeUnit) {
     case "second":
       return timeValue;
@@ -68,64 +116,56 @@ export const convertTimeToSeconds = (timeValue: number, timeUnit: string): numbe
     case "week":
       return timeValue * 7 * 24 * 60 * 60;
     case "month":
-      return timeValue * 30 * 24 * 60 * 60; // Approximation
+      return timeValue * 30 * 24 * 60 * 60; // approximation
     case "year":
-      return timeValue * 365 * 24 * 60 * 60; // Approximation
+      return timeValue * 365 * 24 * 60 * 60; // approximation
     default:
       return timeValue;
   }
 };
 
-export const compareToUniverseAge = (lightYears: number): number => {
-  // Age of the universe is approximately 13.8 billion years
-  const universeAgeYears = 13.8e9;
-  return (lightYears / universeAgeYears) * 100;
-};
-
-// Paper folding calculator functions
-export const calculateFoldedThickness = (paperThickness: number, folds: number): number => {
+// Paper Folding Calculator functions
+export const calculateFoldedThickness = (initialThickness: number, folds: number): number => {
   // Each fold doubles the thickness
-  return paperThickness * Math.pow(2, folds);
+  // thickness = initial_thickness * 2^folds
+  return initialThickness * Math.pow(2, folds);
 };
 
 export const thicknessToKilometers = (thicknessInMm: number): number => {
-  // 1 km = 1,000,000 mm
-  return thicknessInMm / 1000000;
+  return thicknessInMm / 1000000; // Convert from mm to km
 };
 
-export const thicknessToLightTime = (kmDistance: number): number => {
-  // Speed of light is 299,792.458 km/s
-  const lightSpeed = 299792.458; // km/s
-  return kmDistance / lightSpeed;
+export const thicknessToLightTime = (thicknessInKm: number): number => {
+  // Speed of light in km/s = 299,792.458 km/s
+  const speedOfLightKmPerSecond = 299792.458;
+  return thicknessInKm / speedOfLightKmPerSecond; // Time in seconds
 };
 
-export const thicknessToLightDays = (lightTimeSeconds: number): number => {
-  // 1 day = 86,400 seconds
-  const secondsPerDay = 86400;
-  return lightTimeSeconds / secondsPerDay;
+export const thicknessToLightDays = (thicknessInSeconds: number): number => {
+  return thicknessInSeconds / (24 * 60 * 60); // Convert seconds to days
 };
 
 export const thicknessToEverestHeight = (thicknessInMm: number): number => {
-  // Mount Everest is approximately 8,848 meters = 8,848,000 mm
+  // Mount Everest height = 8,848 meters = 8,848,000 mm
   const everestHeightMm = 8848000;
   return thicknessInMm / everestHeightMm;
 };
 
 export const thicknessToEarthToMoonDistance = (thicknessInMm: number): number => {
-  // Earth to Moon distance is approximately 384,400 km = 384,400,000,000 mm
+  // Average Earth to Moon distance = 384,400 km = 384,400,000,000 mm
   const earthToMoonDistanceMm = 384400000000;
   return thicknessInMm / earthToMoonDistanceMm;
 };
 
 export const thicknessToSolarSystemDistance = (thicknessInMm: number): number => {
-  // Solar system diameter is approximately 9 billion km = 9 * 10^15 mm
-  const solarSystemDiameterMm = 9e15;
+  // Approximate diameter of our solar system = 9 billion km = 9 * 10^15 mm
+  const solarSystemDiameterMm = 9 * Math.pow(10, 15);
   return thicknessInMm / solarSystemDiameterMm;
 };
 
 export const thicknessToMilkyWayDiameter = (thicknessInMm: number): number => {
-  // Milky Way diameter is approximately 100,000 light years
-  // 1 light year = 9.461 trillion km = 9.461 * 10^15 mm
+  // Diameter of Milky Way galaxy ≈ 100,000 light years
+  // 1 light year ≈ 9.461 trillion km ≈ 9.461 x 10^15 mm
   const milkyWayDiameterMm = 100000 * 9.461 * Math.pow(10, 15);
   return thicknessInMm / milkyWayDiameterMm;
 };
@@ -133,22 +173,6 @@ export const thicknessToMilkyWayDiameter = (thicknessInMm: number): number => {
 export const thicknessToObservableUniverse = (thicknessInMm: number): number => {
   // Diameter of observable universe ≈ 93 billion light years
   // 1 light year ≈ 9.461 trillion km ≈ 9.461 x 10^15 mm
-  const observableUniverseDiameterMm = 93e9 * 9.461e15;
+  const observableUniverseDiameterMm = 93000000000 * 9.461 * Math.pow(10, 15);
   return thicknessInMm / observableUniverseDiameterMm;
-};
-
-// Compound interest calculator functions
-export const convertTimeUnit = (value: number, unit: string): number => {
-  switch (unit) {
-    case "day":
-      return value; // Already in days
-    case "week":
-      return value * 7; // Convert weeks to days
-    case "month":
-      return value * 30; // Approximate a month as 30 days
-    case "year":
-      return value * 365; // Approximate a year as 365 days
-    default:
-      return value;
-  }
 };
