@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import {
   calculateFoldedThickness,
@@ -9,7 +8,7 @@ import {
   thicknessToEarthToMoonDistance,
   thicknessToSolarSystemDistance,
   thicknessToMilkyWayDiameter,
-  thicknessToObservableUniverse
+  thicknessToObservableUniverse,
 } from "@/utils/calculators";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -48,7 +47,7 @@ const PaperFoldingCalculator = () => {
     }
 
     setError("");
-    
+
     const thickness = calculateFoldedThickness(paperThickness, folds);
     const kmThickness = thicknessToKilometers(thickness);
     const seconds = thicknessToLightTime(kmThickness);
@@ -70,7 +69,9 @@ const PaperFoldingCalculator = () => {
     setUniversePortion(universe);
   }, [paperThickness, folds]);
 
-  const handlePaperThicknessChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePaperThicknessChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const value = parseFloat(e.target.value);
     setPaperThickness(isNaN(value) ? 0 : value);
   };
@@ -83,7 +84,7 @@ const PaperFoldingCalculator = () => {
   const formatNumber = (num: number): string => {
     if (num === undefined || num === null) return "0";
     if (isNaN(num)) return "0";
-    return num.toLocaleString('vi-VN', { maximumFractionDigits: 6 });
+    return num.toLocaleString("vi-VN", { maximumFractionDigits: 6 });
   };
 
   // Function to convert large numbers to readable text
@@ -94,8 +95,10 @@ const PaperFoldingCalculator = () => {
     if (num < 1000000) return `${(num / 1000).toFixed(2)} nghìn`;
     if (num < 1000000000) return `${(num / 1000000).toFixed(2)} triệu`;
     if (num < 1000000000000) return `${(num / 1000000000).toFixed(2)} tỷ`;
-    if (num < 1000000000000000) return `${(num / 1000000000000).toFixed(2)} nghìn tỷ`;
-    if (num < 1000000000000000000) return `${(num / 1000000000000000).toFixed(2)} triệu tỷ`;
+    if (num < 1000000000000000)
+      return `${(num / 1000000000000).toFixed(2)} nghìn tỷ`;
+    if (num < 1000000000000000000)
+      return `${(num / 1000000000000000).toFixed(2)} triệu tỷ`;
     return `${(num / 1000000000000000000).toFixed(2)} tỷ tỷ`;
   };
 
@@ -111,9 +114,11 @@ const PaperFoldingCalculator = () => {
     <div className="w-full p-4 rounded-lg bg-white">
       <div className="flex items-center gap-2 mb-4">
         <BookMarked size={24} className="text-edu-orange" />
-        <h3 className="text-xl font-bold text-edu-orange">Khám Phá Độ Dày Của Giấy Gấp</h3>
+        <h3 className="text-xl font-bold text-edu-orange">
+          Khám Phá Độ Dày Của Giấy Gấp
+        </h3>
       </div>
-      
+
       <div className="space-y-4">
         <div>
           <Label htmlFor="paperThickness">Độ dày ban đầu của giấy (mm):</Label>
@@ -127,7 +132,7 @@ const PaperFoldingCalculator = () => {
             className="mt-1 bg-gray-50 border-edu-orange"
           />
         </div>
-        
+
         <div>
           <div className="flex justify-between">
             <Label htmlFor="folds">Số lần gấp đôi: {folds}</Label>
@@ -149,7 +154,9 @@ const PaperFoldingCalculator = () => {
         </div>
 
         <div className="flex items-center gap-2 mt-2">
-          <Label htmlFor="foldsInput" className="whitespace-nowrap">Nhập số lần gấp chính xác:</Label>
+          <Label htmlFor="foldsInput" className="whitespace-nowrap">
+            Nhập số lần gấp chính xác:
+          </Label>
           <Input
             id="foldsInput"
             type="number"
@@ -160,73 +167,137 @@ const PaperFoldingCalculator = () => {
             className="bg-gray-50 border-edu-orange"
           />
         </div>
-        
+
         {error && (
           <Alert variant="destructive" className="mt-2">
             <AlertDescription>{error}</AlertDescription>
           </Alert>
         )}
-        
-        <div className="grid gap-3 p-4 bg-gray-50 rounded-lg">
+
+        <div className="grid gap-3 p-4 bg-gray-50 rounded-lg grid-cols-2">
           <div className="space-y-1">
-            <p className="text-sm font-medium text-gray-500">Độ dày sau khi gấp:</p>
-            <p className="text-lg font-bold text-edu-orange">{formatExponential(resultThickness)} mm</p>
-            <p className="text-sm text-gray-600">({formatReadableNumber(resultThickness)} mm)</p>
+            <p className="text-sm font-medium text-gray-500">
+              Độ dày sau khi gấp:
+            </p>
+            <p className="text-lg font-bold text-edu-orange">
+              {formatExponential(resultThickness)} mm
+            </p>
+            <p className="text-sm text-gray-600">
+              ({formatReadableNumber(resultThickness)} mm)
+            </p>
           </div>
-          
+
           <div className="space-y-1">
-            <p className="text-sm font-medium text-gray-500">Quy đổi thành km:</p>
-            <p className="text-lg font-bold text-edu-blue">{formatExponential(thicknessInKm)} km</p>
-            <p className="text-sm text-gray-600">({formatReadableNumber(thicknessInKm)} km)</p>
+            <p className="text-sm font-medium text-gray-500">
+              Quy đổi thành km:
+            </p>
+            <p className="text-lg font-bold text-edu-blue">
+              {formatExponential(thicknessInKm)} km
+            </p>
+            <p className="text-sm text-gray-600">
+              ({formatReadableNumber(thicknessInKm)} km)
+            </p>
           </div>
-          
+
           <div className="space-y-1">
-            <p className="text-sm font-medium text-gray-500">Thời gian ánh sáng di chuyển:</p>
-            <p className="text-lg font-bold text-edu-purple">{formatExponential(lightTimeSeconds)} giây</p>
-            <p className="text-sm text-gray-600">({formatReadableNumber(lightTimeSeconds)} giây)</p>
+            <p className="text-sm font-medium text-gray-500">
+              Thời gian ánh sáng di chuyển:
+            </p>
+            <p className="text-lg font-bold text-edu-purple">
+              {formatExponential(lightTimeSeconds)} giây
+            </p>
+            <p className="text-sm text-gray-600">
+              ({formatReadableNumber(lightTimeSeconds)} giây)
+            </p>
           </div>
-          
+
           <div className="space-y-1">
-            <p className="text-sm font-medium text-gray-500">Thời gian ánh sáng di chuyển (ngày):</p>
-            <p className="text-lg font-bold text-edu-red">{formatExponential(lightTimeDays)} ngày</p>
-            <p className="text-sm text-gray-600">({formatReadableNumber(lightTimeDays)} ngày)</p>
+            <p className="text-sm font-medium text-gray-500">
+              Thời gian ánh sáng di chuyển (ngày):
+            </p>
+            <p className="text-lg font-bold text-edu-red">
+              {formatExponential(lightTimeDays)} ngày
+            </p>
+            <p className="text-sm text-gray-600">
+              ({formatReadableNumber(lightTimeDays)} ngày)
+            </p>
           </div>
-          
+
           <div className="space-y-1">
-            <p className="text-sm font-medium text-gray-500">Số lần cao hơn đỉnh Everest:</p>
-            <p className="text-lg font-bold text-edu-green">{formatExponential(everestHeights)} lần</p>
-            <p className="text-sm text-gray-600">({formatReadableNumber(everestHeights)} lần)</p>
+            <p className="text-sm font-medium text-gray-500">
+              Số lần cao hơn đỉnh Everest:
+            </p>
+            <p className="text-lg font-bold text-edu-green">
+              {formatExponential(everestHeights)} lần
+            </p>
+            <p className="text-sm text-gray-600">
+              ({formatReadableNumber(everestHeights)} lần)
+            </p>
           </div>
-          
+
           <div className="space-y-1">
-            <p className="text-sm font-medium text-gray-500">So với khoảng cách Trái Đất - Mặt Trăng:</p>
-            <p className="text-lg font-bold text-edu-yellow">{formatExponential(moonDistances)} lần</p>
-            <p className="text-sm text-gray-600">({formatReadableNumber(moonDistances)} lần)</p>
+            <p className="text-sm font-medium text-gray-500">
+              So với khoảng cách Trái Đất - Mặt Trăng:
+            </p>
+            <p className="text-lg font-bold text-edu-yellow">
+              {formatExponential(moonDistances)} lần
+            </p>
+            <p className="text-sm text-gray-600">
+              ({formatReadableNumber(moonDistances)} lần)
+            </p>
           </div>
-          
+
           <div className="space-y-1">
-            <p className="text-sm font-medium text-gray-500">So với đường kính Hệ Mặt Trời:</p>
-            <p className="text-lg font-bold text-edu-teal">{formatExponential(solarSystemPortion)} lần</p>
-            <p className="text-sm text-gray-600">({formatReadableNumber(solarSystemPortion)} lần)</p>
+            <p className="text-sm font-medium text-gray-500">
+              So với đường kính Hệ Mặt Trời:
+            </p>
+            <p className="text-lg font-bold text-edu-teal">
+              {formatExponential(solarSystemPortion)} lần
+            </p>
+            <p className="text-sm text-gray-600">
+              ({formatReadableNumber(solarSystemPortion)} lần)
+            </p>
           </div>
-          
+
           <div className="space-y-1">
-            <p className="text-sm font-medium text-gray-500">So với đường kính Dải Ngân Hà:</p>
-            <p className="text-lg font-bold text-indigo-500">{formatExponential(milkyWayPortion)} lần</p>
-            <p className="text-sm text-gray-600">({formatReadableNumber(milkyWayPortion)} lần)</p>
-          </div>
-          
-          <div className="space-y-1">
-            <p className="text-sm font-medium text-gray-500">So với đường kính Vũ trụ quan sát được:</p>
-            <p className="text-lg font-bold text-pink-500">{formatExponential(universePortion)} lần</p>
-            <p className="text-sm text-gray-600">({formatReadableNumber(universePortion)} lần)</p>
+            <p className="text-sm font-medium text-gray-500">
+              So với đường kính Dải Ngân Hà:
+            </p>
+            <p className="text-lg font-bold text-indigo-500">
+              {formatExponential(milkyWayPortion)} lần
+            </p>
+            <p className="text-sm text-gray-600">
+              ({formatReadableNumber(milkyWayPortion)} lần)
+            </p>
           </div>
         </div>
-        
+        <div className="grid gap-3 p-4 bg-gray-50">
+          <div className="space-y-1">
+            <p className="text-sm font-medium text-gray-500">
+              So với đường kính Vũ trụ quan sát được (93 tỷ năm ánh sáng - 1 năm
+              ánh sáng = 9.461 tỷ tỷ mm [9.461 * 10^18 mm]):
+            </p>
+            <p className="text-lg font-bold text-pink-500">
+              {formatExponential(universePortion)} lần
+            </p>
+            <p className="text-sm text-gray-600">
+              ({formatReadableNumber(universePortion)} lần)
+            </p>
+          </div>
+        </div>
+
         <div className="text-sm text-gray-500 mt-4 space-y-2">
-          <p>Độ dày giấy ban đầu thường khoảng 0.1mm. Mỗi lần gấp đôi sẽ tăng độ dày lên gấp đôi.</p>
-          <p className="font-semibold">Thực tế, một tờ giấy chỉ có thể gấp được khoảng 7-8 lần.</p>
-          <p>Nhưng nếu có thể gấp liên tục, chỉ cần khoảng 42 lần gấp là sẽ đến Mặt Trăng!</p>
+          <p>
+            Độ dày giấy ban đầu thường khoảng 0.1mm. Mỗi lần gấp đôi sẽ tăng độ
+            dày lên gấp đôi.
+          </p>
+          <p className="font-semibold">
+            Thực tế, một tờ giấy chỉ có thể gấp được khoảng 7-8 lần.
+          </p>
+          <p>
+            Nhưng nếu có thể gấp liên tục, chỉ cần khoảng 42 lần gấp là sẽ đến
+            Mặt Trăng!
+          </p>
         </div>
       </div>
     </div>

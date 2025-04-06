@@ -1,8 +1,25 @@
-
 import React, { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Calculator, Clock, BookOpen, Lightbulb, BookMarked } from "lucide-react";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
+import {
+  Calculator,
+  Clock,
+  BookOpen,
+  Lightbulb,
+  BookMarked,
+} from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import RiceCalculator from "./RiceCalculator";
 import CompoundInterestCalculator from "./CompoundInterestCalculator";
@@ -19,16 +36,26 @@ const EducationalTool = () => {
   return (
     <div className="container px-4 py-8 mx-auto max-w-7xl">
       <div className="text-center mb-10">
-        <h1 className="text-4xl font-bold mb-2 text-gray-800">Công Cụ Học Tập</h1>
-        <p className="text-xl text-gray-600">Khám phá những khái niệm toán học và vật lý tuyệt vời!</p>
+        <h1 className="text-4xl font-bold mb-2 text-gray-800">
+          Tool Of Akira Gosho
+        </h1>
+        <p className="text-xl text-gray-600">
+          Khám phá những khái niệm toán học và vật lý tuyệt vời!
+        </p>
       </div>
 
       <div className="w-full max-w-md mx-auto mb-6">
-        <Label htmlFor="tool-selector" className="text-lg font-medium mb-2 block text-center">
+        <Label
+          htmlFor="tool-selector"
+          className="text-lg font-medium mb-2 block text-center"
+        >
           Chọn công cụ học tập
         </Label>
         <Select value={selectedTool} onValueChange={handleToolChange}>
-          <SelectTrigger id="tool-selector" className="bg-white border-2 border-gray-300">
+          <SelectTrigger
+            id="tool-selector"
+            className="bg-white border-2 border-gray-300"
+          >
             <SelectValue placeholder="Chọn công cụ" />
           </SelectTrigger>
           <SelectContent>
@@ -47,9 +74,7 @@ const EducationalTool = () => {
               <CardTitle className="text-2xl flex items-center gap-2">
                 <Calculator className="h-5 w-5" /> Hạt Thóc Trên Bàn Cờ
               </CardTitle>
-              <CardDescription>
-                Khám phá sức mạnh của hàm số mũ
-              </CardDescription>
+              <CardDescription>Khám phá sức mạnh của hàm số mũ</CardDescription>
             </CardHeader>
             <CardContent>
               <RiceCalculator />
@@ -104,16 +129,6 @@ const EducationalTool = () => {
             </CardContent>
           </Card>
         )}
-      </div>
-
-      <div className="mt-16 text-center">
-        <h2 className="text-2xl font-bold mb-4 text-gray-800 flex items-center justify-center gap-2">
-          <BookOpen className="h-6 w-6" /> Học Tập Là Cả Một Cuộc Phiêu Lưu!
-        </h2>
-        <p className="text-gray-600 max-w-2xl mx-auto">
-          Những công cụ này giúp học sinh hiểu được các khái niệm toán học và vật lý qua những ví dụ thực tế.
-          Khám phá sức mạnh của hàm số mũ, lãi kép và thế giới rộng lớn của vũ trụ!
-        </p>
       </div>
     </div>
   );

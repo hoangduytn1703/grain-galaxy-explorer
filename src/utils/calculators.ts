@@ -1,17 +1,16 @@
-
 // Rice Calculator functions
 export const calculateRiceGrains = (squares: number): number => {
   if (squares <= 0 || squares > 64) return 0;
-  
+
   // Start with 1 grain on the first square
   let total = 0;
   let currentGrains = 1;
-  
+
   for (let i = 1; i <= squares; i++) {
     total += currentGrains;
     currentGrains *= 2;
   }
-  
+
   return total;
 };
 
@@ -23,7 +22,7 @@ export const grainsToTons = (grains: number): number => {
 
 export const vietnamRicePercentage = (tons: number): number => {
   // Vietnam produces approximately 42.4 million tons of rice per year (updated 2024)
-  const vietnamAnnualProduction = 42_400_000;
+  const vietnamAnnualProduction = 43_460_000;
   return (tons / vietnamAnnualProduction) * 100;
 };
 
@@ -37,10 +36,7 @@ export const calculateCompoundInterest = (
 };
 
 // Time conversion functions for compound interest calculator
-export const convertTimeUnit = (
-  value: number,
-  timeUnit: string
-): number => {
+export const convertTimeUnit = (value: number, timeUnit: string): number => {
   switch (timeUnit) {
     case "day":
       return value;
@@ -125,7 +121,10 @@ export const convertTimeToSeconds = (
 };
 
 // Paper Folding Calculator functions
-export const calculateFoldedThickness = (initialThickness: number, folds: number): number => {
+export const calculateFoldedThickness = (
+  initialThickness: number,
+  folds: number
+): number => {
   // Each fold doubles the thickness
   // thickness = initial_thickness * 2^folds
   return initialThickness * Math.pow(2, folds);
@@ -151,13 +150,17 @@ export const thicknessToEverestHeight = (thicknessInMm: number): number => {
   return thicknessInMm / everestHeightMm;
 };
 
-export const thicknessToEarthToMoonDistance = (thicknessInMm: number): number => {
+export const thicknessToEarthToMoonDistance = (
+  thicknessInMm: number
+): number => {
   // Average Earth to Moon distance = 384,400 km = 384,400,000,000 mm
   const earthToMoonDistanceMm = 384400000000;
   return thicknessInMm / earthToMoonDistanceMm;
 };
 
-export const thicknessToSolarSystemDistance = (thicknessInMm: number): number => {
+export const thicknessToSolarSystemDistance = (
+  thicknessInMm: number
+): number => {
   // Approximate diameter of our solar system = 9 billion km = 9 * 10^15 mm
   const solarSystemDiameterMm = 9 * Math.pow(10, 15);
   return thicknessInMm / solarSystemDiameterMm;
@@ -165,14 +168,18 @@ export const thicknessToSolarSystemDistance = (thicknessInMm: number): number =>
 
 export const thicknessToMilkyWayDiameter = (thicknessInMm: number): number => {
   // Diameter of Milky Way galaxy ≈ 100,000 light years
-  // 1 light year ≈ 9.461 trillion km ≈ 9.461 x 10^15 mm
-  const milkyWayDiameterMm = 100000 * 9.461 * Math.pow(10, 15);
+  // 1 light year ≈ 9.461 × 10^18 mm
+  const milkyWayDiameterMm = 100000 * 9.461 * Math.pow(10, 18);
   return thicknessInMm / milkyWayDiameterMm;
 };
 
-export const thicknessToObservableUniverse = (thicknessInMm: number): number => {
+export const thicknessToObservableUniverse = (
+  thicknessInMm: number
+): number => {
   // Diameter of observable universe ≈ 93 billion light years
-  // 1 light year ≈ 9.461 trillion km ≈ 9.461 x 10^15 mm
-  const observableUniverseDiameterMm = 93000000000 * 9.461 * Math.pow(10, 15);
+  // 1 light year ≈ 9.461 × 10^18 mm
+  const observableUniverseDiameterMm =
+    93_000_000_000 * (9.461 * Math.pow(10, 18));
+
   return thicknessInMm / observableUniverseDiameterMm;
 };
